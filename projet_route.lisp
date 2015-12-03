@@ -5,6 +5,31 @@
   (reset)
   
   
+<<<<<<< HEAD
+  (let* (;(feu (permute-list '("R" "V" "non")))
+		 ;(route (permute-list '("r1" "r2")))
+		 ;(climat (permute-list '("cl" "cl2")))
+		 ;(passage (permute-list '("oui" "non")))
+		 (envir (permute-list '("env1" "env2" "env3")))
+		 (voiture (permute-list '("voiture1" "voiture2" "voiture3")))
+		 
+      ;   (text1 (first feu))
+		 ;(text2 (first route))
+		 ;(text3 (first climat))
+		 ;(text4 (first passage))
+     (text4 (first voiture))
+		 (text5 (second voiture))
+		 (text6 (first envir))
+         (windowEnv (open-exp-window "Environnement" :x 500 :y 50)))
+         ;(windowG (open-exp-window "Gauche" :x 0 :y 50))
+         ;(windowD (open-exp-window "Droite" :x 1000 :y 50)))
+    
+    (add-text-to-exp-window :text text6 :x 10 :y 150 :window windowEnv)    
+    ;(add-text-to-exp-window :text text4 :x 100 :y 150 :window windowEnv)
+    ;(add-text-to-exp-window :text text5 :x 200 :y 150 :window windowEnv)
+
+ 
+=======
   (let* ((feu (permute-list '("R" "V" "non")))
 		 (route (permute-list '("r1" "r2")))
 		 (climat (permute-list '("cl" "cl2")))
@@ -23,10 +48,15 @@
     (add-text-to-exp-window :text text6 :x 125 :y 150)
 	;;(add-text-to-exp-window :text text2 :x 125 :y 150)
 	;;(add-text-to-exp-window :text text3 :x 125 :y 150)
+>>>>>>> origin/master
 	
    
-    (install-device window)
+    ;(install-device windowG)
+    ;(install-device windowD)
+    (install-device windowEnv)
+
     (proc-display)
+
     (run 10 :real-time t))      
   )
 (clear-all)
@@ -105,8 +135,15 @@
 (Feu2 ISA Feu Couleur "rouge")
 (Feu3 ISA Feu Couleur "non")
 
+<<<<<<< HEAD
+(start ISA chunk) (find-locationEnv ISA chunk) (attendEnv ISA chunk) 
+(researchFeu ISA chunk) (respondEnv ISA chunk) (doneEnv ISA chunk) 
+(find-locationGauche ISA chunk) (attendGauche ISA chunk) (researchGauche ISA chunk)
+(respondGauche ISA chunk) (startGauche ISA chunk)
+=======
 (start ISA chunk) (attend ISA chunk) (researchFeu ISA chunk)
  (respond ISA chunk) (done ISA chunk) (finFEU ISA chunk)
+>>>>>>> origin/master
 (goal ISA Decision state start))
 
 (P start-environnement
@@ -118,13 +155,13 @@
       ISA         visual-location
       :attended    nil
    =goal>
-      state       find-location
+      state       find-locationEnv
 )
 
 (P analyse-env
    =goal>
       ISA         Decision
-      state       find-location
+      state       find-locationEnv
    =visual-location>
       ISA         visual-location
    ?visual>
@@ -134,14 +171,18 @@
       ISA         move-attention
       screen-pos  =visual-location
    =goal>
-      state       attend
+      state       attendEnv
 )
 
 
 (P save-env
    =goal>
       ISA         Decision
+<<<<<<< HEAD
+      state       attendEnv
+=======
       state       attend
+>>>>>>> origin/master
    =visual>
       ISA         text
       value       =name
@@ -183,7 +224,11 @@
       state       free
 ==>
    =goal>
+<<<<<<< HEAD
+      state       respondEnv
+=======
       state       respond
+>>>>>>> origin/master
    +imaginal>
       isa         Feu
       Couleur      =fire
@@ -192,43 +237,126 @@
 (P respond1
    =goal>
       ISA         Decision
-      state       respond
+      state       respondEnv
    =imaginal>
       isa         Feu
       Couleur      "vert"
 ==>
    =goal>
-      state       done
+      state       doneEnv
    !output!       (Le feu est vert!)
 )
 
 (P respond2
    =goal>
       ISA         Decision
-      state       respond
+      state       respondEnv
    =imaginal>
       isa         Feu
       Couleur      "rouge"
 ==>
    =goal>
-      state       done
+      state       doneEnv
    !output!       (Le feu est rouge!)
 )
 
 (P stop-noFeu
    =goal>
       ISA         Decision
+<<<<<<< HEAD
+      state       respondEnv
+=======
       state       respond
+>>>>>>> origin/master
    =imaginal>
       ISA         Feu
       Couleur       "non"
 ==>
    =goal>
-      state       done
+<<<<<<< HEAD
+      state       doneEnv
    !output!       (Il n'y a pas de feu!)
 )
 
+#|(P startGauche
+  =goal>
+    ISA           Decision
+    state         doneEnv
+==>
+  =goal>
+   state          startGauche
+  +visual-location>
+      ISA         visual-location
+      :attended    nil
 
+)
+=======
+      state       done
+   !output!       (Il n'y a pas de feu!)
+)
+>>>>>>> origin/master
+
+(P regarderGauche
+    =goal>
+      ISA           Decision
+      state         startGauche
+    =visual-location>
+          ISA         visual-location
+       ?visual>
+          state       free
+==>
+  =goal>
+   state          find-locationGauche
+  +visual>
+      ISA         move-attention
+      screen-pos  =visual-location
+)
+(P analyse-Gauche
+   =goal>
+      ISA         Decision
+      state       find-locationGauche
+   =visual-location>
+      ISA         visual-location
+   ?visual>
+      state       free
+==>
+   +visual>
+      ISA         move-attention
+      screen-pos  =visual-location
+   =goal>
+      state       attendGauche
+)
+
+(P save-gauche
+   =goal>
+      ISA         Decision
+      state       attendGauche
+   =visual>
+      ISA         text
+      value       =name
+==>
+   =goal>
+      state       researchGauche
+   +retrieval>
+      isa         Vehicule
+      nomV      =name
+)
+
+(P researchVehiculeGauche
+   =goal>
+      ISA         Decision
+      state       researchGauche
+   =retrieval>
+      isa         Vehicule
+      nomV     =voitGauche
+      Type      =type
+      Distance  =distance
+      Vitesse   =vitesse
+==>
+   =goal>
+      state       respondGauche
+      !output!  (A gauche je vois une voiture de type =type qui roule à =vitesse vitesse et qui se situe à une distance =distance)
+)|#
 
 (goal-focus goal)
 
