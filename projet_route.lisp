@@ -17,7 +17,9 @@
 	  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
     (add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
     (add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
-    (add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)  
+    (add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
+   ; (add-text-to-exp-window :text envText :x 40 :y 40 :window windowEnv)  
+  
 
 	
    
@@ -120,6 +122,8 @@
 (find-locationDroite ISA chunk) (attendDroite ISA chunk) (researchDroite ISA chunk) (respondDroite ISA chunk) (startDroite ISA chunk)
 (find-locationGauche2 ISA chunk) (attendGauche2 ISA chunk) (researchGauche2 ISA chunk) (respondGauche2 ISA chunk) (startGauche2 ISA chunk)
 (respondWait ISA chunk) (respondCrossWalking ISA chunk) (respondCrossRunning ISA chunk)
+(find-locationNuit ISA chunk) (attendNuit ISA chunk) (researchNuit ISA chunk) (respondNuit ISA chunk)
+(doneNuit ISA chunk) (testNuit ISA chunk)
 
 (goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty"))
 
@@ -228,7 +232,109 @@
    !output!       (Il n'y a pas de feu on regarde a gauche !)
 )
 
-;; fin reconnaissance environnement
+
+;; fin reconnaissance Feux
+
+;; check s'il fait nuit ou non => si oui, difficulté à repérer une voiture
+;; (similarités?)
+
+#|(P start-nuit
+   =goal>
+      ISA         Decision
+      state       doneEnv
+ ==>
+   +visual-location>
+      ISA         visual-location
+      :attended    nil 
+    < screen-x   100
+    < screen-y   100
+   =goal>
+      state       find-locationNuit
+)
+
+(P analyse-nuit
+   =goal>
+      ISA         Decision
+      state       find-locationNuit
+   =visual-location>
+      ISA         visual-location
+   ?visual>
+      state       free
+==>
+   +visual>
+      ISA         move-attention
+      screen-pos  =visual-location
+   =goal>
+      state       attendNuit
+)
+
+
+(P save-nuit
+   =goal>
+      ISA         Decision
+      state       attendNuit
+   =visual>
+      ISA         text
+      value       =name
+   ?retrieval>
+      state       free
+==>
+   +retrieval>
+      isa         Environnement
+      nomE        =name
+   =goal>
+      state       researchNuit
+)
+
+
+(P researchNuit
+   =goal>
+      ISA         Decision
+      state       researchNuit
+   =retrieval>
+      isa         Environnement
+      Climat     =climat
+  ?imaginal>
+      state       free
+==>
+   +imaginal>
+      isa         Climat
+      nomC        =climat
+   =goal>
+      state       testNuit
+)
+
+(P test-nuit
+    =goal>
+      ISA         Decision
+      state       testNuit
+   =imaginal>
+      ISA         Climat
+      nomC        =climat
+    ?retrieval>
+      state       free
+==>
+  +retrieval>
+      ISA         Climat
+      nomC        =climat
+  =goal>
+    state         respondNuit
+)
+
+(P nuit-ok
+   =goal>
+      ISA         Decision
+      state       respondNuit
+   =retrieval>
+      ISA         Climat
+      nomC        =climat
+      Nuit        "oui"
+==>
+   =goal>
+      state       doneNuit
+   !output!       (Il fait nuit !)
+)|#
+
 
 (P startGauche
   =goal>
