@@ -4,51 +4,21 @@
   
   (reset)
   
-  
-<<<<<<< HEAD
-  (let* (;(feu (permute-list '("R" "V" "non")))
-		 ;(route (permute-list '("r1" "r2")))
-		 ;(climat (permute-list '("cl" "cl2")))
-		 ;(passage (permute-list '("oui" "non")))
-		 (envir (permute-list '("env1" "env2" "env3")))
-		 (voiture (permute-list '("voiture1" "voiture2" "voiture3")))
+  (let* ((envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
+		 (voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+		 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
 		 
-      ;   (text1 (first feu))
-		 ;(text2 (first route))
-		 ;(text3 (first climat))
-		 ;(text4 (first passage))
-     (text4 (first voiture))
-		 (text5 (second voiture))
-		 (text6 (first envir))
-         (windowEnv (open-exp-window "Environnement" :x 500 :y 50)))
-         ;(windowG (open-exp-window "Gauche" :x 0 :y 50))
-         ;(windowD (open-exp-window "Droite" :x 1000 :y 50)))
-    
-    (add-text-to-exp-window :text text6 :x 10 :y 150 :window windowEnv)    
-    ;(add-text-to-exp-window :text text4 :x 100 :y 150 :window windowEnv)
-    ;(add-text-to-exp-window :text text5 :x 200 :y 150 :window windowEnv)
+		 (voitD (first voitureD))
+		 (voitG (first voitureG))
+		 (envText (first envir))
+		 
+         (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
+	  
+	  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
+    (add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
+    (add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
+    (add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)  
 
- 
-=======
-  (let* ((feu (permute-list '("R" "V" "non")))
-		 (route (permute-list '("r1" "r2")))
-		 (climat (permute-list '("cl" "cl2")))
-		 (passage (permute-list '("oui" "non")))
-		 (envir (permute-list '("env1" "env2" "env3")))
-		 (voiture (permute-list '("Voit1" "Voit2" "Voit3")))
-		 
-         (text1 (first feu))
-		 (text2 (first route))
-		 (text3 (first climat))
-		 (text4 (first passage))
-		 (text5 (first voiture))
-		 (text6 (first envir))
-         (window (open-exp-window "Environnement")))
-    
-    (add-text-to-exp-window :text text6 :x 125 :y 150)
-	;;(add-text-to-exp-window :text text2 :x 125 :y 150)
-	;;(add-text-to-exp-window :text text3 :x 125 :y 150)
->>>>>>> origin/master
 	
    
     ;(install-device windowG)
@@ -77,11 +47,10 @@
 	
 ;;différentes valeurs voiture ===>
 ;;type : "normal", "electrique", "moto"
-;;sensdecirculation : "gauche", "droite" (on s'interesse seulement aux vehicules venant vers nous)
 ;;distance/vitesse : "grande", "moyenne", "petite"
 ;;numerodevoie : (integer)
 ;;phares : "E", "A"
- (chunk-type Vehicule nomV Type SendDeCirculation Distance Vitesse NumeroDeVoie Phares)
+ (chunk-type Vehicule nomV Type Distance Vitesse NumeroDeVoie Phares)
  
 ;;différentes valeurs environnement ===>
 ;;route : (chunk type)
@@ -107,7 +76,7 @@
  
 ;;différentes valeurs Decision ===>
 ;;state : "stop", "courir", "marcher"
- (chunk-type Decision state)
+ (chunk-type Decision state vitesseG distanceG vitesseD distanceD)
  
 ;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ;;Ces valeurs peuvent être modifié DU MOMENT QUE vous modifiez le code pour gérer ces modifications !
@@ -117,13 +86,24 @@
 
 
 (add-dm
-(Voiture1 ISA Vehicule nomV "voiture1" Type "normal" SendDeCirculation "gauche" Distance "grande" Vitesse "grande" NumeroDeVoie 1 Phares "E")
-(Voiture2 ISA Vehicule nomV "voiture2" Type "normal" SendDeCirculation "droite" Distance "moyenne" Vitesse "grande" NumeroDeVoie 1 Phares "A")
-(Voiture3 ISA Vehicule nomV "voiture3" Type "electrique" SendDeCirculation "gauche" Distance "petite" Vitesse "moyenne" NumeroDeVoie 1 Phares "E")
+(Voiture1 ISA Vehicule nomV "voiture1" Type "electrique" Distance "petite" Vitesse "petite" NumeroDeVoie 1 Phares "E")
+(Voiture2 ISA Vehicule nomV "voiture2" Type "normal" Distance "petite" Vitesse "moyenne" NumeroDeVoie 1 Phares "E")
+(Voiture3 ISA Vehicule nomV "voiture3" Type "normal" Distance "petite" Vitesse "grande" NumeroDeVoie 1 Phares "E")
+(Voiture4 ISA Vehicule nomV "voiture4" Type "normal" Distance "moyenne" Vitesse "petite" NumeroDeVoie 1 Phares "A")
+(Voiture5 ISA Vehicule nomV "voiture5" Type "electrique" Distance "moyenne" Vitesse "moyenne" NumeroDeVoie 1 Phares "A")
+(Voiture6 ISA Vehicule nomV "voiture6" Type "normal" Distance "moyenne" Vitesse "grande" NumeroDeVoie 1 Phares "A")
+(Voiture7 ISA Vehicule nomV "voiture7" Type "normal" Distance "grande" Vitesse "petite" NumeroDeVoie 1 Phares "E")
+(Voiture8 ISA Vehicule nomV "voiture8" Type "normal" Distance "grande" Vitesse "moyenne" NumeroDeVoie 1 Phares "E")
+(Voiture9 ISA Vehicule nomV "voiture9" Type "electrique" Distance "grande" Vitesse "grande" NumeroDeVoie 1 Phares "E")
+;; ce chunk voiture sert a representer l absence de voitures d un cote
+(VoitureVide ISA Vehicule nomV "voitureVide" Type "empty" Distance "empty" Vitesse "empty" NumeroDeVoie "empty" Phares "empty")
 
 (Env1 ISA Environnement nomE "env1" Route Route1 Climat Climat1 PassagePieton "non" Feu "non")
 (Env2 ISA Environnement nomE "env2" Route Route2 Climat Climat2 PassagePieton "oui" Feu "rouge")
 (Env3 ISA Environnement nomE "env3" Route Route2 Climat Climat2 PassagePieton "oui" Feu "vert")
+(Env4 ISA Environnement nomE "env4" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
+(Env5 ISA Environnement nomE "env5" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
+(Env6 ISA Environnement nomE "env6" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
 
 (Route1 ISA Route nomR "route1" NombreDeVoies 1 NombreSens "un")
 (Route2 ISA Route nomR "route2" NombreDeVoies 1 NombreSens "deux")
@@ -135,16 +115,13 @@
 (Feu2 ISA Feu Couleur "rouge")
 (Feu3 ISA Feu Couleur "non")
 
-<<<<<<< HEAD
-(start ISA chunk) (find-locationEnv ISA chunk) (attendEnv ISA chunk) 
-(researchFeu ISA chunk) (respondEnv ISA chunk) (doneEnv ISA chunk) 
-(find-locationGauche ISA chunk) (attendGauche ISA chunk) (researchGauche ISA chunk)
-(respondGauche ISA chunk) (startGauche ISA chunk)
-=======
-(start ISA chunk) (attend ISA chunk) (researchFeu ISA chunk)
- (respond ISA chunk) (done ISA chunk) (finFEU ISA chunk)
->>>>>>> origin/master
-(goal ISA Decision state start))
+(start ISA chunk) (find-locationEnv ISA chunk) (attendEnv ISA chunk) (researchFeu ISA chunk) (respondEnv ISA chunk) (doneEnv ISA chunk) 
+(find-locationGauche ISA chunk) (attendGauche ISA chunk) (researchGauche ISA chunk) (respondGauche ISA chunk) (startGauche ISA chunk) 
+(find-locationDroite ISA chunk) (attendDroite ISA chunk) (researchDroite ISA chunk) (respondDroite ISA chunk) (startDroite ISA chunk)
+(find-locationGauche2 ISA chunk) (attendGauche2 ISA chunk) (researchGauche2 ISA chunk) (respondGauche2 ISA chunk) (startGauche2 ISA chunk)
+(respondWait ISA chunk) (respondCrossWalking ISA chunk) (respondCrossRunning ISA chunk)
+
+(goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty"))
 
 (P start-environnement
    =goal>
@@ -154,6 +131,8 @@
    +visual-location>
       ISA         visual-location
       :attended    nil
+	  < screen-x   100
+	  < screen-y   100
    =goal>
       state       find-locationEnv
 )
@@ -178,39 +157,19 @@
 (P save-env
    =goal>
       ISA         Decision
-<<<<<<< HEAD
       state       attendEnv
-=======
-      state       attend
->>>>>>> origin/master
    =visual>
       ISA         text
       value       =name
-==>
-   =goal>
-      state       researchFeu
-   +retrieval>
-      isa         Environnement
-      nomE      =name
-)
-
-#|
-(P save-env
-   =goal>
-      ISA         Decision
-      state       attend
-   =visual>
-      ISA         text
-      value       =letter
-   ?imaginal>
+   ?retrieval>
       state       free
 ==>
+   +retrieval>
+      isa         Environnement
+      nomE        =name
    =goal>
-      state       respond
-   +imaginal>
-      isa         Feu
-      Couleur      =letter
-)|#
+      state       researchFeu
+)
 
 
 (P researchEnv
@@ -223,18 +182,14 @@
    ?imaginal>
       state       free
 ==>
-   =goal>
-<<<<<<< HEAD
-      state       respondEnv
-=======
-      state       respond
->>>>>>> origin/master
    +imaginal>
       isa         Feu
       Couleur      =fire
+   =goal>
+      state       respondEnv
 )
 
-(P respond1
+(P respondVert
    =goal>
       ISA         Decision
       state       respondEnv
@@ -243,11 +198,11 @@
       Couleur      "vert"
 ==>
    =goal>
-      state       doneEnv
-   !output!       (Le feu est vert!)
+      state       respondCrossWalking
+   !output!       (Le feu est vert on peut traverser !)
 )
 
-(P respond2
+(P respondRouge
    =goal>
       ISA         Decision
       state       respondEnv
@@ -256,45 +211,37 @@
       Couleur      "rouge"
 ==>
    =goal>
-      state       doneEnv
-   !output!       (Le feu est rouge!)
+      state       respondWait
+   !output!       (Le feu est rouge stop !)
 )
 
 (P stop-noFeu
    =goal>
       ISA         Decision
-<<<<<<< HEAD
       state       respondEnv
-=======
-      state       respond
->>>>>>> origin/master
    =imaginal>
       ISA         Feu
       Couleur       "non"
 ==>
    =goal>
-<<<<<<< HEAD
       state       doneEnv
-   !output!       (Il n'y a pas de feu!)
+   !output!       (Il n'y a pas de feu on regarde a gauche !)
 )
 
-#|(P startGauche
+;; fin reconnaissance environnement
+
+(P startGauche
   =goal>
     ISA           Decision
     state         doneEnv
 ==>
   =goal>
-   state          startGauche
+	  state          startGauche
   +visual-location>
       ISA         visual-location
       :attended    nil
-
+	  > screen-x   100
 )
-=======
-      state       done
-   !output!       (Il n'y a pas de feu!)
-)
->>>>>>> origin/master
 
 (P regarderGauche
     =goal>
@@ -302,44 +249,29 @@
       state         startGauche
     =visual-location>
           ISA         visual-location
-       ?visual>
+    ?visual>
           state       free
 ==>
   =goal>
-   state          find-locationGauche
+		state     find-locationGauche
   +visual>
       ISA         move-attention
       screen-pos  =visual-location
-)
-(P analyse-Gauche
-   =goal>
-      ISA         Decision
-      state       find-locationGauche
-   =visual-location>
-      ISA         visual-location
-   ?visual>
-      state       free
-==>
-   +visual>
-      ISA         move-attention
-      screen-pos  =visual-location
-   =goal>
-      state       attendGauche
 )
 
 (P save-gauche
    =goal>
       ISA         Decision
-      state       attendGauche
+      state       find-locationGauche
    =visual>
       ISA         text
       value       =name
 ==>
-   =goal>
-      state       researchGauche
-   +retrieval>
+	+retrieval>
       isa         Vehicule
       nomV      =name
+   =goal>
+      state       researchGauche
 )
 
 (P researchVehiculeGauche
@@ -348,16 +280,644 @@
       state       researchGauche
    =retrieval>
       isa         Vehicule
-      nomV     =voitGauche
+      - nomV     "VoitureVide"
       Type      =type
       Distance  =distance
       Vitesse   =vitesse
 ==>
    =goal>
       state       respondGauche
-      !output!  (A gauche je vois une voiture de type =type qui roule à =vitesse vitesse et qui se situe à une distance =distance)
-)|#
+	  vitesseG	  =vitesse
+	  distanceG	  =distance
+      !output!  (A gauche je vois une voiture de type =type qui roule a =vitesse vitesse et qui se situe a =distance distance)
+)
 
+(P researchVehiculeGaucheVide
+   =goal>
+      ISA         Decision
+      state       researchGauche
+   =retrieval>
+      isa         Vehicule
+      nomV     "VoitureVide"
+==>
+   =goal>
+      state       respondGauche
+      !output!  (Il n y a pas de voitures a gauche)
+)
+
+(P stop1
+   =goal>
+      ISA         Decision
+      state       researchGauche
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "moyenne"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe a petite distance mais arrive a moyenne vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop2
+   =goal>
+      ISA         Decision
+      state       researchGauche
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe a petite distance et arrive a grande vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop3
+   =goal>
+      ISA         Decision
+      state       researchGauche
+   =retrieval>
+      isa         Vehicule
+      Distance  "moyenne"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe a moyenne distance mais arrive a grande vitesse et donc il vaut mieux attendre avant de traverser !)
+)
+
+;;fin observation vehicules gauche
+
+(P startDroite
+  =goal>
+    ISA           Decision
+    state         respondGauche
+==>
+  =goal>
+	  state          startDroite
+  +visual-location>
+      ISA         visual-location
+      :attended    nil
+	  > screen-y   100
+)
+
+(P regarderDroite
+    =goal>
+      ISA           Decision
+      state         startDroite
+    =visual-location>
+          ISA         visual-location
+    ?visual>
+          state       free
+==>
+  =goal>
+		state     find-locationDroite
+  +visual>
+      ISA         move-attention
+      screen-pos  =visual-location
+)
+
+(P save-Droite
+   =goal>
+      ISA         Decision
+      state       find-locationDroite
+   =visual>
+      ISA         text
+      value       =name
+==>
+	+retrieval>
+      isa         Vehicule
+      nomV      =name
+   =goal>
+      state       researchDroite
+)
+
+(P researchVehiculeDroite
+   =goal>
+      ISA         Decision
+      state       researchDroite
+   =retrieval>
+      isa         Vehicule
+      - nomV     "VoitureVide"
+      Type      =type
+      Distance  =distance
+      Vitesse   =vitesse
+==>
+   =goal>
+      state       respondDroite
+	  vitesseD	  =vitesse
+	  distanceD	  =distance
+      !output!  (A Droite je vois une voiture de type =type qui roule a =vitesse vitesse et qui se situe a =distance distance)
+)
+
+(P researchVehiculeDroiteVide
+   =goal>
+      ISA         Decision
+      state       researchDroite
+   =retrieval>
+      isa         Vehicule
+      nomV     "VoitureVide"
+==>
+   =goal>
+      state       respondDroite
+      !output!  (Il n y a pas de voitures a droite)
+)
+
+(P stop21
+   =goal>
+      ISA         Decision
+      state       researchDroite
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "moyenne"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a droite se situe a petite distance mais arrive a moyenne vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop22
+   =goal>
+      ISA         Decision
+      state       researchDroite
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a droite se situe a petite distance et arrive a grande vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop23
+   =goal>
+      ISA         Decision
+      state       researchDroite
+   =retrieval>
+      isa         Vehicule
+      Distance  "moyenne"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a droite se situe a moyenne distance mais arrive a grande vitesse et donc il vaut mieux attendre avant de traverser !)
+)
+
+;;fin observation vehicules droite
+
+(P startGauche2
+  =goal>
+    ISA           Decision
+    state         respondDroite
+==>
+  =goal>
+	  state          startGauche2
+  +visual-location>
+      ISA         visual-location
+	  > screen-x   100
+)
+
+(P regarderGauche2
+    =goal>
+      ISA           Decision
+      state         startGauche2
+    =visual-location>
+          ISA         visual-location
+    ?visual>
+          state       free
+==>
+  =goal>
+		state     find-locationGauche2
+  +visual>
+      ISA         move-attention
+      screen-pos  =visual-location
+)
+
+(P save-gauche2
+   =goal>
+      ISA         Decision
+      state       find-locationGauche2
+   =visual>
+      ISA         text
+      value       =name
+==>
+	+retrieval>
+      isa         Vehicule
+      nomV      =name
+   =goal>
+      state       researchGauche2
+)
+
+(P researchVehiculeGauche2
+   =goal>
+      ISA         Decision
+      state       researchGauche2
+   =retrieval>
+      isa         Vehicule
+      - nomV     "VoitureVide"
+      Type      =type
+      Distance  =distance
+      Vitesse   =vitesse
+==>
+   =goal>
+      state       respondGauche2
+	  vitesseG	  =vitesse
+	  distanceG	  =distance
+      !output!  (A gauche je vois toujours une voiture de type =type qui roule a =vitesse vitesse et qui se situe a =distance distance)
+)
+
+(P researchVehiculeGauche2Vide
+   =goal>
+      ISA         Decision
+      state       researchGauche2
+   =retrieval>
+      isa         Vehicule
+      nomV     "VoitureVide"
+==>
+   =goal>
+      state       respondGauche2
+      !output!  (Il n y a toujours pas de voitures a gauche)
+)
+
+(P stop31
+   =goal>
+      ISA         Decision
+      state       researchGauche2
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "moyenne"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe toujours a petite distance mais arrive a moyenne vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop32
+   =goal>
+      ISA         Decision
+      state       researchGauche2
+   =retrieval>
+      isa         Vehicule
+      Distance  "petite"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe toujours a petite distance et arrive a grande vitesse donc il vaut mieux attendre avant de traverser !)
+)
+
+(P stop33
+   =goal>
+      ISA         Decision
+      state       researchGauche2
+   =retrieval>
+      isa         Vehicule
+      Distance  "moyenne"
+      Vitesse   "grande"
+==>
+   =goal>
+      state       respondWait
+      !output!  (Une voiture a gauche se situe toujours a moyenne distance mais arrive a grande vitesse et donc il vaut mieux attendre avant de traverser !)
+)
+
+;;fin re-observation vehicules droite
+
+#|
+voici le tableau des decisions :
+
+		vitesse/distance D		e/e |	p/p	|	p/m	|	p/g	|	m/p	|	m/m	|	m/g	|	g/p	|	g/m	|	g/g
+vitesse/distance G
+
+				e/e				walk	run		walk	walk	stop	run		walk	stop	stop	run	
+				p/p				run		run		run		run		stop	run		run		stop	stop	run
+				p/m				walk	run		walk	walk	stop	run		walk	stop	stop	run
+				p/g				walk	run		walk	walk	stop	run		walk	stop	stop	run
+				m/p				stop	stop	stop	stop	stop	stop	stop	stop	stop	stop
+				m/m				run		run		run		run		stop	run		run		stop	stop	run
+				m/g				walk	run		walk	walk	stop	run		walk	stop	stop	run
+				g/p				stop	stop	stop	stop	stop	stop	stop	stop	stop	stop
+				g/m				stop	stop	stop	stop	stop	stop	stop	stop	stop	stop
+				g/g				run		run		run		run		stop	run		run		stop	stop	run
+|#
+
+
+(P respond1
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseG	  "empty"
+	  vitesseD	  "empty"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je peux y aller en marchant il n y a pas de voitures)
+)
+
+(P respond2
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseG	  "petite"
+	  distanceG	  "petite"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond3
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "petite"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond4
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseG	  "moyenne"
+	  distanceG	  "moyenne"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond5
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "moyenne"
+	  distanceD	  "moyenne"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond6
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseG	  "grande"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond7
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "grande"
+	  distanceD	  "grande"
+==>
+   =goal>
+      state       respondCrossRunning
+      !output!  (Je cours !)
+)
+
+(P respond8
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "grande"
+	  vitesseG	  "petite"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond9
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "moyenne"
+	  distanceD	  "grande"
+	  vitesseG	  "moyenne"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond10
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "moyenne"
+	  vitesseG	  "petite"
+	  distanceG	  "moyenne"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond11
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "moyenne"
+	  distanceD	  "grande"
+	  vitesseG	  "petite"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond12
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "moyenne"
+	  distanceD	  "grande"
+	  vitesseG	  "petite"
+	  distanceG	  "moyenne"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond13
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "grande"
+	  vitesseG	  "moyenne"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond14
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "moyenne"
+	  vitesseG	  "moyenne"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond15
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "grande"
+	  vitesseG	  "petite"
+	  distanceG	  "moyenne"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond16
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "moyenne"
+	  vitesseG	  "petite"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond17
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "empty"
+	  vitesseG	  "petite"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond18
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "empty"
+	  vitesseG	  "moyenne"
+	  distanceG	  "grande"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond19
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "empty"
+	  vitesseG	  "petite"
+	  distanceG	  "moyenne"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond20
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "moyenne"
+	  distanceD	  "grande"
+	  vitesseG	  "empty"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond21
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "grande"
+	  vitesseG	  "empty"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+
+(P respond22
+   =goal>
+      ISA         Decision
+      state       respondGauche2
+	  vitesseD	  "petite"
+	  distanceD	  "moyenne"
+	  vitesseG	  "empty"
+==>
+   =goal>
+      state       respondCrossWalking
+      !output!  (Je traverse en marchant.)
+)
+;; fin decision
+
+
+
+
+
+
+;; augmentation base levels des chunks de base necessaires au fonctionnement des procedures
+(set-base-levels 
+  (Env1 10) (Env2 10) (Env3 10) (Env4 10) (Env5 10) (Env6 10) (Feu1 10) (Feu2 10) (Feu3 10)
+  (Route1 10) (Route2 10) (Climat1 10) (Climat2 10) 
+  (Voiture1 10) (Voiture2 10) (Voiture3 10) (Voiture4 10) (Voiture5 10) (Voiture6 10) (Voiture7 10) (Voiture8 10) (Voiture9 10) (VoitureVide 10))
+
+;; augmentation des niveaux d utilité pour favoriser les cas d arret pour cause de danger à la traversée
+(spp stop1 :u 5)
+(spp stop2 :u 5)
+(spp stop3 :u 5)
+
+(spp stop21 :u 5)
+(spp stop22 :u 5)
+(spp stop23 :u 5)
+
+(spp stop31 :u 5)
+(spp stop32 :u 5)
+(spp stop33 :u 5)
+  
 (goal-focus goal)
 
 )
