@@ -1,12 +1,13 @@
 (defvar *response* nil)
 
-(defun decide()
+;; programme pour representer une personne en pleine forme
+(defun normal()
   
   (reset)
   
-  (let* ((envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
-		 (voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
-		 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+  (let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+		 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
+		 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
 		 
 		 (voitD (first voitureD))
 		 (voitG (first voitureG))
@@ -18,19 +19,75 @@
     (add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
     (add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
     (add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
-   ; (add-text-to-exp-window :text envText :x 40 :y 40 :window windowEnv)  
-  
-
 	
-   
-    ;(install-device windowG)
-    ;(install-device windowD)
     (install-device windowEnv)
 
     (proc-display)
-
-    (run 10 :real-time t))      
+	
+    (sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :act nil)
+	
+    (run 10 :real-time t))  
+    
   )
+  
+;; programme pour representer une personne assez fatigue
+(defun tired()
+
+(reset)
+
+(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+	 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
+	 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
+	 
+	 (voitD (first voitureD))
+	 (voitG (first voitureG))
+	 (envText (first envir))
+	 
+	 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
+  
+  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
+(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
+(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
+(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
+
+(install-device windowEnv)
+
+(proc-display)
+
+(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 1 :act nil)
+  
+(run 10 :real-time t))  
+)
+
+;; programme pour representer une personne tres fatigue
+(defun very-tired()
+
+(reset)
+
+(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+	 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
+	 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
+	 
+	 (voitD (first voitureD))
+	 (voitG (first voitureG))
+	 (envText (first envir))
+	 
+	 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
+  
+  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
+(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
+(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
+(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
+
+(install-device windowEnv)
+
+(proc-display)
+
+(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2 :act nil)
+  
+(run 10 :real-time t))  
+)
+
 (clear-all)
 
 (define-model projet_route
@@ -40,7 +97,7 @@
 ;;rt : Retrieval Threshold => niveau d'activation de base en dessous duquel les chunks ne seront plus récupérés
 ;;v : Verbose => affiche les traces lors de l'exécution
 ;;ans : Activation Noise S => bruit ajouté aux chunks activés à chaque cycle
-	(sgp :esc t :rt -.45 :v t :ans 0.5)
+	;;(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2)
     
 	
 	
@@ -49,7 +106,7 @@
 	
 ;;différentes valeurs voiture ===>
 ;;type : "normal", "electrique", "moto"
-;;distance/vitesse : "grande", "moyenne", "petite"
+;;distance/vitesse : GrandeV, MoyenneV, PetiteV
 ;;numerodevoie : (integer)
 ;;phares : "E", "A"
  (chunk-type Vehicule nomV Type Distance Vitesse NumeroDeVoie Phares)
@@ -78,8 +135,11 @@
  
 ;;différentes valeurs Decision ===>
 ;;state : "stop", "courir", "marcher"
- (chunk-type Decision state vitesseG distanceG vitesseD distanceD)
+ (chunk-type Decision state vitesseG distanceG vitesseD distanceD environnement)
  
+;;besoin de definir des chunks vitesse et distance pour les similarites
+ (chunk-type Vitesse v)
+ (chunk-type Distance d)
 ;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 ;;Ces valeurs peuvent être modifié DU MOMENT QUE vous modifiez le code pour gérer ces modifications !
 ;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -88,30 +148,40 @@
 
 
 (add-dm
-(Voiture1 ISA Vehicule nomV "voiture1" Type "electrique" Distance "petite" Vitesse "petite" NumeroDeVoie 1 Phares "E")
-(Voiture2 ISA Vehicule nomV "voiture2" Type "normal" Distance "petite" Vitesse "moyenne" NumeroDeVoie 1 Phares "E")
-(Voiture3 ISA Vehicule nomV "voiture3" Type "normal" Distance "petite" Vitesse "grande" NumeroDeVoie 1 Phares "E")
-(Voiture4 ISA Vehicule nomV "voiture4" Type "normal" Distance "moyenne" Vitesse "petite" NumeroDeVoie 1 Phares "A")
-(Voiture5 ISA Vehicule nomV "voiture5" Type "electrique" Distance "moyenne" Vitesse "moyenne" NumeroDeVoie 1 Phares "A")
-(Voiture6 ISA Vehicule nomV "voiture6" Type "normal" Distance "moyenne" Vitesse "grande" NumeroDeVoie 1 Phares "A")
-(Voiture7 ISA Vehicule nomV "voiture7" Type "normal" Distance "grande" Vitesse "petite" NumeroDeVoie 1 Phares "E")
-(Voiture8 ISA Vehicule nomV "voiture8" Type "normal" Distance "grande" Vitesse "moyenne" NumeroDeVoie 1 Phares "E")
-(Voiture9 ISA Vehicule nomV "voiture9" Type "electrique" Distance "grande" Vitesse "grande" NumeroDeVoie 1 Phares "E")
+
+(PetiteV ISA Vitesse v "petite")
+(MoyenneV ISA Vitesse v "moyenne")
+(GrandeV ISA Vitesse v "grande")
+
+(PetiteD ISA Distance d "petite")
+(MoyenneD ISA Distance d "moyenne")
+(GrandeD ISA Distance d "grande")
+
+(Voiture1 ISA Vehicule nomV "voiture1" Type "electrique" Distance PetiteD Vitesse PetiteV NumeroDeVoie 1 Phares "E")
+(Voiture2 ISA Vehicule nomV "voiture2" Type "normal" Distance PetiteD Vitesse MoyenneV NumeroDeVoie 1 Phares "E")
+(Voiture3 ISA Vehicule nomV "voiture3" Type "normal" Distance PetiteD Vitesse GrandeV NumeroDeVoie 1 Phares "E")
+(Voiture4 ISA Vehicule nomV "voiture4" Type "normal" Distance MoyenneD Vitesse PetiteV NumeroDeVoie 1 Phares "A")
+(Voiture5 ISA Vehicule nomV "voiture5" Type "electrique" Distance MoyenneD Vitesse MoyenneV NumeroDeVoie 1 Phares "A")
+(Voiture6 ISA Vehicule nomV "voiture6" Type "normal" Distance MoyenneD Vitesse GrandeV NumeroDeVoie 1 Phares "A")
+(Voiture7 ISA Vehicule nomV "voiture7" Type "normal" Distance GrandeD Vitesse PetiteV NumeroDeVoie 1 Phares "E")
+(Voiture8 ISA Vehicule nomV "voiture8" Type "normal" Distance GrandeD Vitesse MoyenneV NumeroDeVoie 1 Phares "E")
+(Voiture9 ISA Vehicule nomV "voiture9" Type "electrique" Distance GrandeD Vitesse GrandeV NumeroDeVoie 1 Phares "E")
+
 ;; ce chunk voiture sert a representer l absence de voitures d un cote
 (VoitureVide ISA Vehicule nomV "voitureVide" Type "empty" Distance "empty" Vitesse "empty" NumeroDeVoie "empty" Phares "empty")
 
 (Env1 ISA Environnement nomE "env1" Route Route1 Climat Climat1 PassagePieton "non" Feu "non")
 (Env2 ISA Environnement nomE "env2" Route Route2 Climat Climat2 PassagePieton "oui" Feu "rouge")
 (Env3 ISA Environnement nomE "env3" Route Route2 Climat Climat2 PassagePieton "oui" Feu "vert")
-(Env4 ISA Environnement nomE "env4" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
+(Env4 ISA Environnement nomE "env4" Route Route2 Climat Climat1 PassagePieton "oui" Feu "non")
 (Env5 ISA Environnement nomE "env5" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
-(Env6 ISA Environnement nomE "env6" Route Route2 Climat Climat2 PassagePieton "oui" Feu "non")
+(Env6 ISA Environnement nomE "env6" Route Route2 Climat Climat1 PassagePieton "oui" Feu "non")
 
 (Route1 ISA Route nomR "route1" NombreDeVoies 1 NombreSens "un")
 (Route2 ISA Route nomR "route2" NombreDeVoies 1 NombreSens "deux")
 
 (Climat1 ISA Climat nomC "climat1" Nuit "non" Visibilite "bonne" Gel "non")
-(Climat2 ISA Climat nomC "climat2" Nuit "oui" Visibilite "bonne" Gel "non")
+(Climat2 ISA Climat nomC "climat2" Nuit "oui" Visibilite "bonne" Gel "oui")
 
 (Feu1 ISA Feu Couleur "vert")
 (Feu2 ISA Feu Couleur "rouge")
@@ -121,11 +191,11 @@
 (find-locationGauche ISA chunk) (attendGauche ISA chunk) (researchGauche ISA chunk) (respondGauche ISA chunk) (startGauche ISA chunk) 
 (find-locationDroite ISA chunk) (attendDroite ISA chunk) (researchDroite ISA chunk) (respondDroite ISA chunk) (startDroite ISA chunk)
 (find-locationGauche2 ISA chunk) (attendGauche2 ISA chunk) (researchGauche2 ISA chunk) (respondGauche2 ISA chunk) (startGauche2 ISA chunk)
-(respondWait ISA chunk) (respondCrossWalking ISA chunk) (respondCrossRunning ISA chunk)
+(respondWait ISA chunk) (respondCrossWalking ISA chunk) (respondCrossRunning ISA chunk) (gestionGel ISA chunk)
 (find-locationNuit ISA chunk) (attendNuit ISA chunk) (researchNuit ISA chunk) (respondNuit ISA chunk)
 (doneNuit ISA chunk) (testNuit ISA chunk)
 
-(goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty"))
+(goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty" environnement "empty"))
 
 (P start-environnement
    =goal>
@@ -180,6 +250,7 @@
    =goal>
       ISA         Decision
       state       researchFeu
+	  environnement "empty"
    =retrieval>
       isa         Environnement
       Feu			=fire
@@ -191,6 +262,7 @@
       Couleur      =fire
    =goal>
       state       respondEnv
+	  environnement =retrieval
 )
 
 (P respondVert
@@ -417,8 +489,8 @@
       state       researchGauche
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "moyenne"
+      Distance  PetiteD
+      Vitesse   MoyenneV
 ==>
    =goal>
       state       respondWait
@@ -431,8 +503,8 @@
       state       researchGauche
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "grande"
+      Distance  PetiteD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -445,8 +517,8 @@
       state       researchGauche
    =retrieval>
       isa         Vehicule
-      Distance  "moyenne"
-      Vitesse   "grande"
+      Distance  MoyenneD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -536,8 +608,8 @@
       state       researchDroite
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "moyenne"
+      Distance  PetiteD
+      Vitesse   MoyenneV
 ==>
    =goal>
       state       respondWait
@@ -550,8 +622,8 @@
       state       researchDroite
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "grande"
+      Distance  PetiteD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -564,8 +636,8 @@
       state       researchDroite
    =retrieval>
       isa         Vehicule
-      Distance  "moyenne"
-      Vitesse   "grande"
+      Distance  MoyenneD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -654,8 +726,8 @@
       state       researchGauche2
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "moyenne"
+      Distance  PetiteD
+      Vitesse   MoyenneV
 ==>
    =goal>
       state       respondWait
@@ -668,8 +740,8 @@
       state       researchGauche2
    =retrieval>
       isa         Vehicule
-      Distance  "petite"
-      Vitesse   "grande"
+      Distance  PetiteD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -682,8 +754,8 @@
       state       researchGauche2
    =retrieval>
       isa         Vehicule
-      Distance  "moyenne"
-      Vitesse   "grande"
+      Distance  MoyenneD
+      Vitesse   GrandeV
 ==>
    =goal>
       state       respondWait
@@ -691,6 +763,40 @@
 )
 
 ;;fin re-observation vehicules droite
+
+
+
+;;permet au sub-symn de sauter des etapes de regards a gauche ou droite
+(P jumpToEnd1
+	=goal>
+		ISA		Decision
+		state	doneEnv
+==>
+	=goal>
+		state	respondGauche2
+		!output!  (Je ne regarde meme pas sur les cotes)
+)
+
+(P jumpToEnd2
+	=goal>
+		ISA		Decision
+		state	respondGauche
+==>
+	=goal>
+		state	respondGauche2
+		!output!  (J ai regarde seulement a gauche)
+)
+
+(P jumpToEnd3
+	=goal>
+		ISA		Decision
+		state	respondDroite
+==>
+	=goal>
+		state	respondGauche2
+		!output!  (J ai regarde seulement deux fois sur les cotes)
+)
+;fin sauts d etapes
 
 #|
 voici le tableau des decisions :
@@ -710,7 +816,6 @@ vitesse/distance G
 				g/g				run		run		run		run		stop	run		run		stop	stop	run
 |#
 
-
 (P respond1
    =goal>
       ISA         Decision
@@ -727,8 +832,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseG	  "petite"
-	  distanceG	  "petite"
+	  vitesseG	  PetiteV
+	  distanceG	  PetiteD
 ==>
    =goal>
       state       respondCrossRunning
@@ -739,8 +844,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "petite"
+	  vitesseD	  PetiteV
+	  distanceD	  PetiteD
 ==>
    =goal>
       state       respondCrossRunning
@@ -751,8 +856,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseG	  "moyenne"
-	  distanceG	  "moyenne"
+	  vitesseG	  MoyenneV
+	  distanceG	  MoyenneD
 ==>
    =goal>
       state       respondCrossRunning
@@ -763,8 +868,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "moyenne"
-	  distanceD	  "moyenne"
+	  vitesseD	  MoyenneV
+	  distanceD	  MoyenneD
 ==>
    =goal>
       state       respondCrossRunning
@@ -775,8 +880,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseG	  "grande"
-	  distanceG	  "grande"
+	  vitesseG	  GrandeV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossRunning
@@ -787,8 +892,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "grande"
-	  distanceD	  "grande"
+	  vitesseD	  GrandeV
+	  distanceD	  GrandeD
 ==>
    =goal>
       state       respondCrossRunning
@@ -799,10 +904,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "grande"
-	  vitesseG	  "petite"
-	  distanceG	  "grande"
+	  vitesseD	  PetiteV
+	  distanceD	  GrandeD
+	  vitesseG	  PetiteV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -813,10 +918,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "moyenne"
-	  distanceD	  "grande"
-	  vitesseG	  "moyenne"
-	  distanceG	  "grande"
+	  vitesseD	  MoyenneV
+	  distanceD	  GrandeD
+	  vitesseG	  MoyenneV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -827,10 +932,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "moyenne"
-	  vitesseG	  "petite"
-	  distanceG	  "moyenne"
+	  vitesseD	  PetiteV
+	  distanceD	  MoyenneD
+	  vitesseG	  PetiteV
+	  distanceG	  MoyenneD
 ==>
    =goal>
       state       respondCrossWalking
@@ -841,10 +946,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "moyenne"
-	  distanceD	  "grande"
-	  vitesseG	  "petite"
-	  distanceG	  "grande"
+	  vitesseD	  MoyenneV
+	  distanceD	  GrandeD
+	  vitesseG	  PetiteV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -855,10 +960,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "moyenne"
-	  distanceD	  "grande"
-	  vitesseG	  "petite"
-	  distanceG	  "moyenne"
+	  vitesseD	  MoyenneV
+	  distanceD	  GrandeD
+	  vitesseG	  PetiteV
+	  distanceG	  MoyenneD
 ==>
    =goal>
       state       respondCrossWalking
@@ -869,10 +974,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "grande"
-	  vitesseG	  "moyenne"
-	  distanceG	  "grande"
+	  vitesseD	  PetiteV
+	  distanceD	  GrandeD
+	  vitesseG	  MoyenneV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -883,10 +988,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "moyenne"
-	  vitesseG	  "moyenne"
-	  distanceG	  "grande"
+	  vitesseD	  PetiteV
+	  distanceD	  MoyenneD
+	  vitesseG	  MoyenneV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -897,10 +1002,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "grande"
-	  vitesseG	  "petite"
-	  distanceG	  "moyenne"
+	  vitesseD	  PetiteV
+	  distanceD	  GrandeD
+	  vitesseG	  PetiteV
+	  distanceG	  MoyenneD
 ==>
    =goal>
       state       respondCrossWalking
@@ -911,10 +1016,10 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "moyenne"
-	  vitesseG	  "petite"
-	  distanceG	  "grande"
+	  vitesseD	  PetiteV
+	  distanceD	  MoyenneD
+	  vitesseG	  PetiteV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -926,8 +1031,8 @@ vitesse/distance G
       ISA         Decision
       state       respondGauche2
 	  vitesseD	  "empty"
-	  vitesseG	  "petite"
-	  distanceG	  "grande"
+	  vitesseG	  PetiteV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -939,8 +1044,8 @@ vitesse/distance G
       ISA         Decision
       state       respondGauche2
 	  vitesseD	  "empty"
-	  vitesseG	  "moyenne"
-	  distanceG	  "grande"
+	  vitesseG	  MoyenneV
+	  distanceG	  GrandeD
 ==>
    =goal>
       state       respondCrossWalking
@@ -952,8 +1057,8 @@ vitesse/distance G
       ISA         Decision
       state       respondGauche2
 	  vitesseD	  "empty"
-	  vitesseG	  "petite"
-	  distanceG	  "moyenne"
+	  vitesseG	  PetiteV
+	  distanceG	  MoyenneD
 ==>
    =goal>
       state       respondCrossWalking
@@ -964,8 +1069,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "moyenne"
-	  distanceD	  "grande"
+	  vitesseD	  MoyenneV
+	  distanceD	  GrandeD
 	  vitesseG	  "empty"
 ==>
    =goal>
@@ -977,8 +1082,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "grande"
+	  vitesseD	  PetiteV
+	  distanceD	  GrandeD
 	  vitesseG	  "empty"
 ==>
    =goal>
@@ -990,8 +1095,8 @@ vitesse/distance G
    =goal>
       ISA         Decision
       state       respondGauche2
-	  vitesseD	  "petite"
-	  distanceD	  "moyenne"
+	  vitesseD	  PetiteV
+	  distanceD	  MoyenneD
 	  vitesseG	  "empty"
 ==>
    =goal>
@@ -1000,6 +1105,43 @@ vitesse/distance G
 )
 ;; fin decision
 
+(P obtentionEnvGel
+	=goal>
+		ISA 		Decision
+		state       respondCrossRunning
+		Environnement =env
+==>
+	+retrieval> 	=env
+	=goal>
+		state 		gestionGel
+)
+
+(P obtentionClimatGel
+	=goal>
+		ISA 		Decision
+		state		gestionGel
+	=retrieval>
+		ISA 		Environnement
+		Climat		=climat
+==>
+	=retrieval> 	=climat
+	=goal>
+		state		gestionGel
+)
+
+(P responseGel
+	=goal>
+		ISA			Decision
+		state		gestionGel
+	=retrieval>
+		ISA			Climat
+		Gel			"oui"
+==>
+	=goal>
+		state		respondWait
+		!output!  (Mais comme le sol est gele je ne peux pas courir et je dois attendre.)
+)
+;; fin gestion gel
 
 
 
@@ -1009,7 +1151,8 @@ vitesse/distance G
 (set-base-levels 
   (Env1 10) (Env2 10) (Env3 10) (Env4 10) (Env5 10) (Env6 10) (Feu1 10) (Feu2 10) (Feu3 10)
   (Route1 10) (Route2 10) (Climat1 10) (Climat2 10) 
-  (Voiture1 10) (Voiture2 10) (Voiture3 10) (Voiture4 10) (Voiture5 10) (Voiture6 10) (Voiture7 10) (Voiture8 10) (Voiture9 10) (VoitureVide 10))
+  (Voiture1 10) (Voiture2 10) (Voiture3 10) (Voiture4 10) (Voiture5 10) (Voiture6 10) (Voiture7 10) (Voiture8 10) (Voiture9 10) (VoitureVide 10)
+  (PetiteD 10) (MoyenneD 10) (GrandeD 10) (PetiteV 10) (MoyenneV 10) (GrandeV 10))
 
 ;; augmentation des niveaux d utilité pour favoriser les cas d arret pour cause de danger à la traversée
 (spp stop1 :u 5)
@@ -1023,7 +1166,21 @@ vitesse/distance G
 (spp stop31 :u 5)
 (spp stop32 :u 5)
 (spp stop33 :u 5)
+
+;; settings des similarites entre chunks pour respresenter les erreurs d estimation
+(Set-similarities
+  (PetiteD MoyenneD -0.4) (PetiteD GrandeD -0.1) (MoyenneD GrandeD -0.6)
+  (PetiteV MoyenneV -0.4) (PetiteV GrandeV -0.1) (MoyenneV GrandeV -0.6))
   
+;; niveau d utilite des procedures afin de permettre le saut de procedures
+ (spp jumpToEnd1 :u 2)
+ (spp jumpToEnd2 :u 1.5)
+ (spp jumpToEnd3 :u 1)
+ (spp startGauche :u 5)
+ (spp startDroite :u 5)
+ (spp startGauche2 :u 5)
+
+
 (goal-focus goal)
 
 )
