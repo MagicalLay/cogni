@@ -54,7 +54,7 @@
 
 (proc-display)
 
-(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 1 :act nil)
+(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 1 :act nil :ppm 1)
   
 (run 10 :real-time t))  
 )
@@ -83,7 +83,7 @@
 
 (proc-display)
 
-(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2 :act nil)
+(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2 :act nil :ppm 2)
   
 (run 10 :real-time t))  
 )
@@ -192,7 +192,7 @@
 (find-locationDroite ISA chunk) (attendDroite ISA chunk) (researchDroite ISA chunk) (respondDroite ISA chunk) (startDroite ISA chunk)
 (find-locationGauche2 ISA chunk) (attendGauche2 ISA chunk) (researchGauche2 ISA chunk) (respondGauche2 ISA chunk) (startGauche2 ISA chunk)
 (respondWait ISA chunk) (respondCrossWalking ISA chunk) (respondCrossRunning ISA chunk) (gestionGel ISA chunk)
-(find-locationNuit ISA chunk) (attendNuit ISA chunk) (researchNuit ISA chunk) (respondNuit ISA chunk)
+(find-locationNuit ISA chunk) (gestionNuit ISA chunk) (researchNuit ISA chunk) (respondNuit ISA chunk)
 (doneNuit ISA chunk) (testNuit ISA chunk)
 
 (goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty" environnement "empty"))
@@ -308,7 +308,57 @@
 ;; fin reconnaissance Feux
 
 ;; check s'il fait nuit ou non => si oui, difficulté à repérer une voiture
-;; (similarités?)
+;; 
+(P obtentionEnvNuit
+  =goal>
+    ISA     Decision
+    state       doneEnv
+    environnement =env
+==>
+  +retrieval>   =env
+  =goal>
+    state     gestionNuit
+)
+
+(P obtentionClimatNuit
+  =goal>
+    ISA     Decision
+    state   gestionNuit
+  =retrieval>
+    ISA     Environnement
+    Climat    =climat
+==>
+  =retrieval>   =climat
+  =goal>
+    state   gestionNuit
+)
+
+(P responseNuit1
+  =goal>
+    ISA     Decision
+    state   gestionNuit
+  =retrieval>
+    ISA     Climat
+    Nuit     "oui"
+==>
+  =goal>
+    state   doneNuit
+    !output!  (Il fait nuit!)
+)
+
+(P responseNuit2
+  =goal>
+    ISA     Decision
+    state   gestionNuit
+  =retrieval>
+    ISA     Climat
+    Nuit     "non"
+==>
+  =goal>
+    state   doneNuit
+    !output!  (Il fait jour!)
+)
+
 
 #|(P start-nuit
    =goal>
@@ -407,11 +457,10 @@
    !output!       (Il fait nuit !)
 )|#
 
-
 (P startGauche
   =goal>
     ISA           Decision
-    state         doneEnv
+    state         doneNuit
 ==>
   =goal>
 	  state          startGauche
@@ -770,7 +819,7 @@
 (P jumpToEnd1
 	=goal>
 		ISA		Decision
-		state	doneEnv
+		state	doneNuit
 ==>
 	=goal>
 		state	respondGauche2
@@ -1091,6 +1140,8 @@ vitesse/distance G
       !output!  (Je traverse en marchant.)
 )
 
+
+
 (P respond22
    =goal>
       ISA         Decision
@@ -1169,8 +1220,8 @@ vitesse/distance G
 
 ;; settings des similarites entre chunks pour respresenter les erreurs d estimation
 (Set-similarities
-  (PetiteD MoyenneD -0.4) (PetiteD GrandeD -0.1) (MoyenneD GrandeD -0.6)
-  (PetiteV MoyenneV -0.4) (PetiteV GrandeV -0.1) (MoyenneV GrandeV -0.6))
+  (PetiteD MoyenneD -0.2) (PetiteD GrandeD -0.4) (MoyenneD GrandeD -0.2)
+  (PetiteV MoyenneV -0.2) (PetiteV GrandeV -0.4) (MoyenneV GrandeV -0.2))
   
 ;; niveau d utilite des procedures afin de permettre le saut de procedures
  (spp jumpToEnd1 :u 2)
