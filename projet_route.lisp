@@ -24,6 +24,17 @@
 
     (proc-display)
 	
+	;; les paramètres globaux sont instanciés de manière à ce que le programme passe par toutes les étapes, et sans confusion de chunks
+	
+	;;paramètres globaux :
+		;;esc : Enable Subsymbolic Computations = True => pour utiliser le subsymbolique
+		;;rt : Retrieval Threshold => niveau d'activation de base en dessous duquel les chunks ne seront plus récupérés
+		;;v : Verbose => affiche les traces lors de l'exécution
+		;;ans : Activation Noise S => bruit ajouté aux chunks activés à chaque cycle
+		;;mp : mismatch penality parameter => active la possibilité de faire du partial matching
+		;;act : activation trace parameter => permet l'affichage du détail des calculs de niveaux d'activation en mèmoire déclarative 
+		;;egs : expected gain S => bruit ajouté aux niveaux d'utilités des règles de production
+		;;ppm : procedural partial matching => permet la selection de chunks en mèmoire déclarative ne matchant que partiellement les conditions de recherche
     (sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :act nil)
 	
     (run 10 :real-time t))  
@@ -33,74 +44,66 @@
 ;; programme pour representer une personne assez fatigue
 (defun tired()
 
-(reset)
+	(reset)
 
-(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
-	 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
-	 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
-	 
-	 (voitD (first voitureD))
-	 (voitG (first voitureG))
-	 (envText (first envir))
-	 
-	 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
-  
-  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
-(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
-(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
-(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
+	(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+		 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
+		 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
+		 
+		 (voitD (first voitureD))
+		 (voitG (first voitureG))
+		 (envText (first envir))
+		 
+		 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
+	  
+	  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
+	(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
+	(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
+	(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
 
-(install-device windowEnv)
+	(install-device windowEnv)
 
-(proc-display)
+	(proc-display)
 
-(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 1 :act nil :ppm 1)
-  
-(run 10 :real-time t))  
+	;; les paramètres globaux sont instanciés de manière à ce que le programme puisse sauter des étapes, et possiblement confondre des chunks
+	(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 1 :act nil :ppm 1)
+	  
+	(run 10 :real-time t))  
 )
 
 ;; programme pour representer une personne tres fatigue
 (defun very-tired()
 
-(reset)
+	(reset)
 
-(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
-	 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
-	 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
-	 
-	 (voitD (first voitureD))
-	 (voitG (first voitureG))
-	 (envText (first envir))
-	 
-	 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
-  
-  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
-(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
-(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
-(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
+	(let* ((voitureD (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))
+		 (voitureG (permute-list '("voiture1" "voiture2" "voiture3" "voiture4" "voiture5" "voiture6" "voiture7" "voiture8" "voiture9" "VoitureVide" "VoitureVide" "VoitureVide")))		 
+		 (envir (permute-list '("env1" "env2" "env3" "env4" "env5" "env6")))
+		 
+		 (voitD (first voitureD))
+		 (voitG (first voitureG))
+		 (envText (first envir))
+		 
+		 (windowEnv (open-exp-window "Environnement" :x 200 :y 200)))
+	  
+	  ;;on se sert de la position des differents elements dans la fenetre pour les distinguer 
+	(add-text-to-exp-window :text voitD :x 50 :y 150 :window windowEnv)
+	(add-text-to-exp-window :text voitG :x 150 :y 50 :window windowEnv)
+	(add-text-to-exp-window :text envText :x 50 :y 50 :window windowEnv)
 
-(install-device windowEnv)
+	(install-device windowEnv)
 
-(proc-display)
+	(proc-display)
 
-(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2 :act nil :ppm 2)
-  
-(run 10 :real-time t))  
+	;; les paramètres globaux sont instanciés de manière à ce que le programme saute régulièrement des étapes, et confond des chunks
+	(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2 :act nil :ppm 2)
+	  
+	(run 10 :real-time t))  
 )
 
 (clear-all)
 
 (define-model projet_route
-
-;;paramètres globaux :
-;;esc : Enable Subsymbolic Computations = True => pour utiliser le subsymbolique
-;;rt : Retrieval Threshold => niveau d'activation de base en dessous duquel les chunks ne seront plus récupérés
-;;v : Verbose => affiche les traces lors de l'exécution
-;;ans : Activation Noise S => bruit ajouté aux chunks activés à chaque cycle
-	;;(sgp :esc t :rt -.45 :v t :ans 0.5 :mp 16 :egs 2)
-    
-	
-	
 	
 ;; Tous les chunk-types, exceptés ceux à un attribut, ont comme attribut "nom" qui sert à les trouver
 	
@@ -140,11 +143,6 @@
 ;;besoin de definir des chunks vitesse et distance pour les similarites
  (chunk-type Vitesse v)
  (chunk-type Distance d)
-;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-;;Ces valeurs peuvent être modifié DU MOMENT QUE vous modifiez le code pour gérer ces modifications !
-;;!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
 
 
 (add-dm
@@ -187,6 +185,7 @@
 (Feu2 ISA Feu Couleur "rouge")
 (Feu3 ISA Feu Couleur "non")
 
+;; states utilisés par le goal buffer
 (start ISA chunk) (find-locationEnv ISA chunk) (attendEnv ISA chunk) (researchFeu ISA chunk) (respondEnv ISA chunk) (doneEnv ISA chunk) 
 (find-locationGauche ISA chunk) (attendGauche ISA chunk) (researchGauche ISA chunk) (respondGauche ISA chunk) (startGauche ISA chunk) 
 (find-locationDroite ISA chunk) (attendDroite ISA chunk) (researchDroite ISA chunk) (respondDroite ISA chunk) (startDroite ISA chunk)
@@ -195,8 +194,11 @@
 (find-locationNuit ISA chunk) (gestionNuit ISA chunk) (researchNuit ISA chunk) (respondNuit ISA chunk)
 (doneNuit ISA chunk) (testNuit ISA chunk)
 
+;; instanciation du goal buffer pour l'execution
 (goal ISA Decision state start vitesseG "empty" distanceG "empty" vitesseD "empty" distanceD "empty" environnement "empty"))
 
+
+;; règle de production de démarrage
 (P start-environnement
    =goal>
       ISA         Decision
@@ -265,6 +267,7 @@
 	  environnement =retrieval
 )
 
+;; reponse aux differents types de feux présents
 (P respondVert
    =goal>
       ISA         Decision
@@ -307,8 +310,7 @@
 
 ;; fin reconnaissance Feux
 
-;; check s'il fait nuit ou non => si oui, difficulté à repérer une voiture
-;; 
+;; check s'il fait nuit ou non
 (P obtentionEnvNuit
   =goal>
     ISA     Decision
@@ -359,7 +361,7 @@
     !output!  (Il fait jour!)
 )
 
-
+;; essai de modification dynamique des niveaux de similarité entre vitesses ou distances selon visibilité : non fonctionnel
 #|(P start-nuit
    =goal>
       ISA         Decision
@@ -457,6 +459,7 @@
    !output!       (Il fait nuit !)
 )|#
 
+;; début regarder à gauche
 (P startGauche
   =goal>
     ISA           Decision
@@ -532,6 +535,7 @@
       !output!  (Il n y a pas de voitures a gauche)
 )
 
+;; conditions d'arrêt
 (P stop1
    =goal>
       ISA         Decision
@@ -576,6 +580,7 @@
 
 ;;fin observation vehicules gauche
 
+;; début observation véhicules à droite
 (P startDroite
   =goal>
     ISA           Decision
@@ -651,6 +656,7 @@
       !output!  (Il n y a pas de voitures a droite)
 )
 
+;; conditions d'arrêt
 (P stop21
    =goal>
       ISA         Decision
@@ -695,6 +701,7 @@
 
 ;;fin observation vehicules droite
 
+;;début ré-observation véhicules à gauche
 (P startGauche2
   =goal>
     ISA           Decision
@@ -769,6 +776,7 @@
       !output!  (Il n y a toujours pas de voitures a gauche)
 )
 
+;; conditions d'arrêt
 (P stop31
    =goal>
       ISA         Decision
@@ -865,6 +873,7 @@ vitesse/distance G
 				g/g				run		run		run		run		stop	run		run		stop	stop	run
 |#
 
+;; règles de production donnant le comportement du piéton en réponse à l'environnement
 (P respond1
    =goal>
       ISA         Decision
@@ -1140,8 +1149,6 @@ vitesse/distance G
       !output!  (Je traverse en marchant.)
 )
 
-
-
 (P respond22
    =goal>
       ISA         Decision
@@ -1156,6 +1163,7 @@ vitesse/distance G
 )
 ;; fin decision
 
+;; post-processing de la réponse en cas de gel
 (P obtentionEnvGel
 	=goal>
 		ISA 		Decision
@@ -1231,7 +1239,7 @@ vitesse/distance G
  (spp startDroite :u 5)
  (spp startGauche2 :u 5)
 
-
+;; setting du state de départ du goal chunk
 (goal-focus goal)
 
 )
